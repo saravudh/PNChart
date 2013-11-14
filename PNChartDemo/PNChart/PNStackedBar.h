@@ -10,4 +10,7 @@
 
 @interface PNStackedBar : PNBar
 
+@property (nonatomic) float grade2;
+@property (nonatomic, strong, readonly) UIColor * barColor2;
+
 @end
