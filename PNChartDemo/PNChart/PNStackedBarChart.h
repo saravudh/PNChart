@@ -10,4 +10,8 @@
 
 @interface PNStackedBarChart : PNBarChart
 
+@property (strong, nonatomic) NSArray * yValues2;
+
+-(void)setYValues:(NSArray *)yValues yValues2:(NSArray *)yValues2;
+
 @end

@@ -7,25 +7,64 @@
 //
 
 #import "PNStackedBarChart.h"
+#import "PNStackedBar.h"
+
+@interface PNStackedBarChart()
+-(void)setYLabels:(NSArray *)yLabels yLabels2:(NSArray *)yLabels2;
+@end
 
 @implementation PNStackedBarChart
 
-- (id)initWithFrame:(CGRect)frame
+
+-(void)setYValues:(NSArray *)yValues yValues2:(NSArray *)yValues2
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    self.yValues = yValues;
+    self.yValues2 = yValues2;
+    [self setYLabels:yValues yLabels2:yValues2];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+-(void)setYLabels:(NSArray *)yLabels yLabels2:(NSArray *)yLabels2
 {
-    // Drawing code
+    NSInteger max = 0;
+    for (int i=0; i<yLabels.count; i++) {
+        NSInteger value = [yLabels[i] integerValue];
+        NSInteger value2 = [yLabels2[i] integerValue];
+        NSInteger valueSummary = value + value2;
+        if (valueSummary > max) {
+            max = valueSummary;
+        }
+    }
+    
+    //Min value for Y label
+    NSInteger minYValue = 50;
+    if (max < minYValue) {
+        max = minYValue;
+    }
+    
+    self.yValueMax = (int)max;
+    
+    NSLog(@"Y Max is %d", self.yValueMax );
 }
-*/
+
+-(void)strokeChart
+{
+    CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
+    for (int i=0; i<self.yValues.count; i++) {
+        float value = [self.yValues[i] floatValue];
+        float value2 = [self.yValues2[i] floatValue];
+        
+        float grade = (float)value / (float)self.yValueMax;
+        float grade2 = (float)value2 / (float)self.yValueMax;
+		
+		PNStackedBar * bar = [[PNStackedBar alloc] initWithFrame:CGRectMake((i *  self.xLabelWidth + chartMargin + self.xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight - 30.0, self.xLabelWidth * 0.5, chartCavanHeight)];
+		bar.barColor = self.strokeColor;
+        bar.grade = grade;
+        bar.grade2 = grade2;
+		[self addSubview:bar];
+    }
+    
+    
+    
+}
 
 @end
