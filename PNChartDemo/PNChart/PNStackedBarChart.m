@@ -37,7 +37,7 @@
     }
     
     //Min value for Y label
-    NSInteger minYValue = 50;
+    NSInteger minYValue = 5;
     if (max < minYValue) {
         max = minYValue;
     }
