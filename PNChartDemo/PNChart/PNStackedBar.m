@@ -53,7 +53,7 @@
         
         self.chartLine.sublayers = nil;
         float gradeAccumulator = 0.0;
-        for (int i=0; i<self.barColors.count; i++) {
+        for (int i=0; i<self.grades.count; i++) {
             float grade = [self.grades[i] floatValue];
             UIColor *color;
             if (self.barColors.count > i) {
