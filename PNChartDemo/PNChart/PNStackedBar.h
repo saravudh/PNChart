@@ -8,10 +8,11 @@
 
 #import "PNBar.h"
 
-@interface PNStackedBar : PNBar
+@interface PNStackedBar : UIView
 
-@property (nonatomic) float grade2;
-@property (nonatomic, strong, readonly) UIColor * barColor2;
-@property (nonatomic,strong) CAShapeLayer * chartLine2;
+@property (nonatomic, strong) CAShapeLayer *chartLine;
+
+-(void) addGrades:(float) grade2, ...;
+-(void) addColors:(UIColor *) arg1, ...;
 
 @end

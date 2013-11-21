@@ -8,6 +8,7 @@
 
 #import "PNStackedBarChart.h"
 #import "PNStackedBar.h"
+#import "PNColor.h"
 
 @interface PNStackedBarChart()
 -(void)setYLabels:(NSArray *)yLabels yLabels2:(NSArray *)yLabels2;
@@ -57,9 +58,8 @@
         float grade2 = (float)value2 / (float)self.yValueMax;
 		
 		PNStackedBar * bar = [[PNStackedBar alloc] initWithFrame:CGRectMake((i *  self.xLabelWidth + chartMargin + self.xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight - 30.0, self.xLabelWidth * 0.5, chartCavanHeight)];
-		bar.barColor = self.strokeColor;
-        bar.grade = grade;
-        bar.grade2 = grade2;
+        [bar addColors:self.strokeColor, PNBlue, nil];
+        [bar addGrades:grade, grade2, nil];
 		[self addSubview:bar];
     }
     
