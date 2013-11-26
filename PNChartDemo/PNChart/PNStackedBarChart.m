@@ -9,6 +9,7 @@
 #import "PNStackedBarChart.h"
 #import "PNStackedBar.h"
 #import "PNColor.h"
+#import "PNChartLabel.h"
 
 @interface PNStackedBarChart()
 -(void)setYLabels:(NSArray *)yLabels yLabels2:(NSArray *)yLabels2;
@@ -16,6 +17,18 @@
 
 @implementation PNStackedBarChart
 
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        self.backgroundColor = [UIColor whiteColor];
+        self.clipsToBounds = YES;
+        
+    }
+    
+    return self;
+}
 
 -(void)setYValues:(NSArray *)yValues yValues2:(NSArray *)yValues2
 {
@@ -47,6 +60,26 @@
     NSLog(@"Y Max is %d", self.yValueMax );
 }
 
+-(void)setStrokeColor:(UIColor *)strokeColor
+{
+	_strokeColor = strokeColor;
+}
+
+-(void)setXLabels:(NSArray *)xLabels
+{
+    float numberOfChartPerPage = 12.0;
+    _xLabels = xLabels;
+    _xLabelWidth = (self.frame.size.width - chartMargin*2)/numberOfChartPerPage;
+    
+    for (NSString * labelText in xLabels) {
+        NSInteger index = [xLabels indexOfObject:labelText];
+        PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin), self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        label.text = labelText;
+        [self addSubview:label];
+    }
+}
+
 -(void)strokeChart
 {
     CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
@@ -57,14 +90,16 @@
         float grade = (float)value / (float)self.yValueMax;
         float grade2 = (float)value2 / (float)self.yValueMax;
 		
-		PNStackedBar * bar = [[PNStackedBar alloc] initWithFrame:CGRectMake((i *  self.xLabelWidth + chartMargin + self.xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight - 30.0, self.xLabelWidth * 0.5, chartCavanHeight)];
+        float x = (i *  self.xLabelWidth + chartMargin + self.xLabelWidth * 0.25);
+        float y = self.frame.size.height - chartCavanHeight - 30.0;
+        float width = self.xLabelWidth * 0.5;
+        float height = chartCavanHeight;
+        
+		PNStackedBar * bar = [[PNStackedBar alloc] initWithFrame:CGRectMake(x, y, width, height)];
         [bar addColors:self.strokeColor, PNBlue, nil];
         [bar addGrades:grade, grade2, nil];
 		[self addSubview:bar];
     }
-    
-    
-    
 }
 
 @end
